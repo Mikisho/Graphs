@@ -3,6 +3,10 @@
  */
 export class Edge {
   // !!! IMPLEMENT ME
+  constructor(destination, weight = 1) {
+    this.destination = destination;
+    this.weight = weight;
+  }
 }
 
 /**
@@ -10,6 +14,10 @@ export class Edge {
  */
 export class Vertex {
   // !!! IMPLEMENT ME
+  constructor(value) {
+    this.value = value;
+    this.edges = [];
+  }
 }
 
 /**
@@ -111,6 +119,29 @@ export class Graph {
    */
   bfs(start) {
     // !!! IMPLEMENT ME
+    const queue = [];
+    for (let v of this.vertexes) {
+      v. color = 'white';
+    }
+    start.color = 'gray';
+    // const queue = new queue();
+    queue.push(start);
+
+    while (!queue.isEmpty()) {
+      let u = queue[0];
+
+      for (let edge of u.edges) {
+        let v = edge.destination;
+        if (v.color === 'white') {
+          v.color = 'gray';
+          queue.push(v);
+        }
+    }
+      queue.dequeue();
+      queue.push(u.pos);
+      u.color = 'black'
+    }
+    return queue;
   }
 
   /**
@@ -118,5 +149,17 @@ export class Graph {
    */
   getConnectedComponents() {
     // !!! IMPLEMENT ME
+    const componentsList = []
+
+    let needRest = true;
+
+    for(let v of this.vertexes) {
+      if (needRest || v.color === 'white') {
+        const component = this.bfs(v, needRest);
+        needRest = false;
+
+        componentsList.push(component);
+      }
+    }
   }
 }
